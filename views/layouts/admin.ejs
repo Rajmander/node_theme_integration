@@ -1,17 +1,4 @@
 <!DOCTYPE html>
-
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
-<!-- beautify ignore:start -->
 <html
   lang="en"
   class="light-style layout-menu-fixed"
@@ -92,12 +79,30 @@
             {
               data: null,
               render: (data, type, row) => ` 
-                <button  class="btn btn-sm btn-primary" data-id="${row.id}"> Edit </span>
-                <button  class="btn btn-sm btn-danger" data-id="${row.id}"> Delete</span>
+                <div class="d-flex gap-2">
+                  <button  class="btn btn-sm btn-primary edit-btn" data-id="${row.id}"> Edit </span>
+                  <button  class="btn btn-sm btn-danger delete-btn" data-id="${row.id}"> Delete</span>
+                </div>
                 `,
             },
           ],
         });
+      });
+
+      $("#usersTable").on("click", ".edit-btn", function () {
+        const id = $(this).data("id");
+        alert(`Edit id = ${id}`);
+      });
+
+      $("#usersTable").on("click", ".delete-btn", function () {
+        const id = $(this).data("id");
+        alert(`Delete id = ${id}`);
+      });
+
+      // Form submission add new user
+      $("#add_user_form").on("submit", function (e) {
+        e.preventDefault();
+        alert("TEST");
       });
     </script>
   </body>

@@ -7,11 +7,14 @@ import {
   login,
   users,
   usersData,
+  addUser,
 } from "../controllers/admin.controller.js";
 
 router.get("/dashboard", dashboard);
 
 router.get("/users", users);
+
+router.get("/users/add", addUser);
 
 // Authentication
 router.get("/login", login);
