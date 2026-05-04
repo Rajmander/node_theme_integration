@@ -60,5 +60,45 @@
     </div>
     <!-- / Layout wrapper -->
     <%- include('../partials/scripts') %>
+
+    <!--/ Basic Bootstrap Table -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
+    />
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+      $(function () {
+        $("#usersTable").DataTable({
+          ajax: "/admin/api/users",
+          columns: [
+            {
+              data: null,
+              render: (data, type, row, meta) => meta.row + 1,
+            },
+            { data: "name" },
+            { data: "email" },
+            { data: "mobile" },
+            {
+              data: "status",
+              render: function (data) {
+                return data === "Active"
+                  ? `<span class="badge bg-success">${data}</span>`
+                  : `<span class="badge bg-danger">${data}</span>`;
+              },
+            },
+            {
+              data: null,
+              render: (data, type, row) => ` 
+                <button  class="btn btn-sm btn-primary" data-id="${row.id}"> Edit </span>
+                <button  class="btn btn-sm btn-danger" data-id="${row.id}"> Delete</span>
+                `,
+            },
+          ],
+        });
+      });
+    </script>
   </body>
 </html>
