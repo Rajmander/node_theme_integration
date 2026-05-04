@@ -13,6 +13,7 @@ import {
 router.get("/dashboard", dashboard);
 
 router.get("/users", users);
+router.post("/users", users);
 
 router.get("/users/add", addUser);
 

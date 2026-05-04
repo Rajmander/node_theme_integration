@@ -23,6 +23,12 @@ export const addUser = (req, res, next) => {
   });
 };
 
+export const createUser = (req, res, next) => {
+  const { username, mobile, email } = req.body;
+
+  // validate with joi
+};
+
 export const users = (req, res, next) => {
   res.locals.title = "Users listing";
   res.locals.activeMenu = "userListing_m";
