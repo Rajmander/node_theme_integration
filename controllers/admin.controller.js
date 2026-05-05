@@ -1,3 +1,4 @@
+import userModel from "../models/user.model.js";
 import user from "../models/user.model.js";
 
 export const dashboard = (req, res, next) => {
@@ -56,191 +57,205 @@ export const users = (req, res, next) => {
   });
 };
 
-export const usersData = (req, res) => {
-  const usersData = [
-    {
-      id: 101,
-      name: "Peter Parker",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 102,
-      name: "Peter Parker1",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Inactive",
-    },
-    {
-      id: 103,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 104,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 105,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 106,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 107,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 108,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 109,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-    {
-      id: 101,
-      name: "Peter Parker2",
-      email: "peter@gmail.com",
-      mobile: "9696969696",
-      status: "Active",
-    },
-  ];
+export const usersData = async (req, res) => {
+  try {
+    const usersData = await userModel.find();
 
-  res.json({ data: usersData });
+    const formattedUser = usersData.map((user) => {
+      return {
+        id: user._id,
+        name: user.username,
+        email: user.email,
+        mobile: user.mobile,
+        status: "Active",
+      };
+    });
+    return res.json({ data: formattedUser });
+  } catch (error) {
+    console.error(error);
+  }
+  // const usersData = [
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 102,
+  //     name: "Peter Parker1",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Inactive",
+  //   },
+  //   {
+  //     id: 103,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 104,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 105,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 106,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 107,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 108,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 109,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  //   {
+  //     id: 101,
+  //     name: "Peter Parker2",
+  //     email: "peter@gmail.com",
+  //     mobile: "9696969696",
+  //     status: "Active",
+  //   },
+  // ];
 };

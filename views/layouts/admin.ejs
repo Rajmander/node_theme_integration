@@ -242,47 +242,20 @@
             processData: false,
             dataType: "json",
             success: (res) => {
-              toastr.success("Done");
+              toastr.success("User created successfully", "Success");
               console.log("response = ", res);
               $("#add_user_form")[0].reset();
               $("#saveBtn").attr("disabled", false);
               $("#pageLoader").hide();
             },
             error: (err) => {
+              toastr.error("Something went wrong", "Error");
               console.error("Error = ", err);
             },
             complete: () => {},
           });
         },
       });
-
-      // $("#add_user_form").on("submit", function (e) {
-      //   e.preventDefault();
-
-      //   $("#saveBtn").attr("disabled", true);
-      //   $("#pageLoader").css("display", "flex");
-      //   const formData = new FormData(this);
-
-      //   $.ajax({
-      //     url: "/admin/users",
-      //     type: "POST",
-      //     data: formData,
-      //     contentType: false,
-      //     processData: false,
-      //     dataType: "json",
-      //     success: (res) => {
-      //       toastr.success("Done");
-      //       console.log("response = ", res);
-      //       $("#add_user_form")[0].reset();
-      //       $("#saveBtn").attr("disabled", false);
-      //       $("#pageLoader").hide();
-      //     },
-      //     error: (err) => {
-      //       console.error("Error = ", err);
-      //     },
-      //     complete: () => {},
-      //   });
-      // });
     </script>
 
     <div id="pageLoader" class="page-loader">
