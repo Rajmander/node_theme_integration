@@ -14,7 +14,7 @@
         <small class="text-muted float-end">Add new user</small>
       </div>
       <div class="card-body">
-        <form id="add_user_form">
+        <form id="add_user_form" enctype="multipart/form-data">
           <div class="row mb-3">
             <label class="col-sm-2 col-form-label" for="basic-default-name"
               >Name</label
@@ -23,10 +23,9 @@
               <input
                 type="text"
                 class="form-control"
-                id="basic-default-name"
+                id="username"
+                name="username"
                 placeholder="John Doe"
-                minlength="3"
-                maxlength="100"
               />
             </div>
           </div>
@@ -39,18 +38,13 @@
               <div class="input-group input-group-merge">
                 <input
                   type="text"
-                  id="basic-default-email"
+                  id="email"
+                  name="email"
                   class="form-control"
-                  placeholder="john.doe"
+                  placeholder="john.doe@gmail.com"
                   aria-label="john.doe"
                   aria-describedby="basic-default-email2"
                 />
-                <span class="input-group-text" id="basic-default-email2"
-                  >@example.com</span
-                >
-              </div>
-              <div class="form-text">
-                You can use letters, numbers & periods
               </div>
             </div>
           </div>
@@ -61,18 +55,35 @@
             <div class="col-sm-10">
               <input
                 type="text"
-                id="basic-default-phone"
+                id="mobile"
+                name="mobile"
                 class="form-control phone-mask"
-                placeholder="658 799 8941"
-                aria-label="658 799 8941"
+                placeholder="6587998941"
+                aria-label="6587998941"
                 aria-describedby="basic-default-phone"
+                oninput="
+                  this.value = this.value.replace(/[^0-9]/g, '');
+                  if (this.value.length > 10)
+                    this.value = this.value.slice(0, 10);
+                "
               />
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="basic-default-phone"
+              >Upload Avatar</label
+            >
+            <div class="col-sm-10">
+              <input type="file" id="avatar" name="avatar" />
             </div>
           </div>
 
           <div class="row justify-content-end">
             <div class="col-sm-10">
-              <button type="submit" class="btn btn-primary">SAVE</button>
+              <button id="saveBtn" type="submit" class="btn btn-primary">
+                SAVE
+              </button>
             </div>
           </div>
         </form>

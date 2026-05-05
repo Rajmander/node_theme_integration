@@ -1,3 +1,5 @@
+import user from "../models/user.model.js";
+
 export const dashboard = (req, res, next) => {
   res.locals.title = "Dashboard";
   res.locals.activeMenu = "dashboard_m";
@@ -23,10 +25,27 @@ export const addUser = (req, res, next) => {
   });
 };
 
-export const createUser = (req, res, next) => {
-  const { username, mobile, email } = req.body;
+export const createUser = async (req, res, next) => {
+  try {
+    const { username, mobile, email } = req.body;
+    console.log("Normal fields = ", req.body);
+    console.log("File = ", req.file);
 
-  // validate with joi
+    const userObj = new user();
+    userObj.username = username;
+    userObj.email = email;
+    userObj.mobile = mobile;
+
+    const newUser = await userObj.save();
+
+    res.status(201).json({
+      success: true,
+      data: newUser,
+      status: 201,
+    });
+  } catch (error) {
+    console.log(`Error in saving... ${error}`);
+  }
 };
 
 export const users = (req, res, next) => {

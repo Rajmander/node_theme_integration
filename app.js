@@ -13,6 +13,8 @@ import { dbConnect } from "./config/db.js";
 
 dbConnect();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 app.set("views", path.join(process.cwd(), "views"));
