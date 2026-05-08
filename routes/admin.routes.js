@@ -13,6 +13,7 @@ import {
   dashboard,
   login,
   users,
+  singleUser,
   usersData,
   addUser,
   createUser,
@@ -20,6 +21,7 @@ import {
 
 router.get("/dashboard", dashboard);
 
+router.get("/users/:id", singleUser);
 router.get("/users", users);
 router.post(
   "/users",
@@ -52,4 +54,23 @@ export default router;
  * withMessage()
  *
  * /^[6-9]\d{9}$/
+ *
+ *
+ * 2xx success 200 GET, update, delete
+ *
+ * 200
+ * 201
+ * 204
+ *
+ *
+ * 4xx client errors
+ * 400
+ * 401
+ * 403
+ * 404
+ * 409
+ * 422
+ * 429 Too many requests
+ *
+ * 5xx server errors
  */
