@@ -6,7 +6,7 @@ import multer from "multer";
 
 const upload = multer({ dest: "uploads/" });
 
-import { userSchema } from "../config/validators/user.schema.js";
+import { userSchema, userIdSchema } from "../config/validators/user.schema.js";
 import { validate } from "../middlewares/validate.middleware.js";
 
 import {
@@ -21,7 +21,8 @@ import {
 
 router.get("/dashboard", dashboard);
 
-router.get("/users/:id", singleUser);
+router.get("/users/add", addUser);
+router.get("/users/:id", userIdSchema, validate, singleUser);
 router.get("/users", users);
 router.post(
   "/users",
@@ -30,8 +31,6 @@ router.post(
   validate,
   createUser,
 );
-
-router.get("/users/add", addUser);
 
 // Authentication
 router.get("/login", login);

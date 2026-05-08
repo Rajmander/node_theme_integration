@@ -10,8 +10,7 @@ export const validate = (req, res, next) => {
       formattedErrors[error.path] = error.msg;
     });
 
-    return res.status(422).json({ sucess: false, errors: formattedErrors });
+    return res.status(400).json({ success: false, errors: formattedErrors });
   }
-
   next();
 };

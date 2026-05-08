@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 export const userSchema = [
   body("username").trim().notEmpty().withMessage("Username is required"),
@@ -17,6 +17,10 @@ export const userSchema = [
     .matches(/^[6-9]\d{9}$/)
     .withMessage("Invalid mobile number")
     .normalizeEmail(),
+];
+
+export const userIdSchema = [
+  param("id").isMongoId().withMessage("Invalid user id"),
 ];
 
 /**
