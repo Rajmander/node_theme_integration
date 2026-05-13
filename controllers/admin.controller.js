@@ -57,36 +57,36 @@ export const createUser = async (req, res, next) => {
     console.log("Normal fields = ", req.body);
     console.log("File = ", req.file);
 
-    // const userObj = new user();
-    // userObj.username = username;
-    // userObj.email = email;
-    // userObj.mobile = mobile;
+    const userObj = new user();
+    userObj.username = username;
+    userObj.email = email;
+    userObj.mobile = mobile;
 
-    // const newUser = await userObj.save();
+    const newUser = await userObj.save();
 
-    const batchSize = 1000;
+    // const batchSize = 1000;
 
-    for (let batch = 0; batch < 50; batch++) {
-      const users = [];
+    // for (let batch = 0; batch < 50; batch++) {
+    //   const users = [];
 
-      for (let i = 1; i <= batchSize; i++) {
-        const num = batch * batchSize + i;
+    //   for (let i = 1; i <= batchSize; i++) {
+    //     const num = batch * batchSize + i;
 
-        users.push({
-          username: `user${num}`,
+    //     users.push({
+    //       username: `user${num}`,
 
-          email: `user${num}@gmail.com`,
+    //       email: `user${num}@gmail.com`,
 
-          mobile: `${Math.floor(6000000000 + Math.random() * 3999999999)}`,
-        });
-      }
+    //       mobile: `${Math.floor(6000000000 + Math.random() * 3999999999)}`,
+    //     });
+    //   }
 
-      await user.insertMany(users);
+    //   await user.insertMany(users);
 
-      console.log(`Batch ${batch + 1} inserted`);
-    }
+    //   console.log(`Batch ${batch + 1} inserted`);
+    // }
 
-    console.log("10000 users inserted");
+    // console.log("10000 users inserted");
 
     res.status(201).json({
       success: true,

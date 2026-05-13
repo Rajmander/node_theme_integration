@@ -150,7 +150,12 @@
           .off()
 
           .on("keyup", function () {
+            const rawValue = this.value;
             const value = this.value.trim();
+
+            if (rawValue.length > 0 && value.length === 0) {
+              return;
+            }
 
             // search only after 3 chars
             if (value.length >= 3 || value.length === 0) {
