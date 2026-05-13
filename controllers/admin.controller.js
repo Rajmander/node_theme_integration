@@ -27,42 +27,66 @@ export const addUser = (req, res, next) => {
   });
 };
 
+export const updateUser = async (req, res) => {
+  try {
+    const { username, email, mobile, userid } = req.body;
+    const updatedUser = await userModel.findByIdAndUpdate(userid, {
+      $set: { username, email, mobile },
+    });
+    if (updatedUser) {
+      res.json({ status: true });
+    }
+  } catch (error) {}
+};
+
+export const userDelete = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userDeleted = await userModel.findByIdAndDelete(id);
+
+    if (!userDeleted) {
+      return res.json({ success: false, message: "Unable to delete the user" });
+    }
+    res.json({ success: true, message: "User deleted successfully" });
+  } catch (error) {}
+};
+
 export const createUser = async (req, res, next) => {
   try {
     const { username, mobile, email } = req.body;
     console.log("Normal fields = ", req.body);
     console.log("File = ", req.file);
 
-    const userObj = new user();
-    userObj.username = username;
-    userObj.email = email;
-    userObj.mobile = mobile;
+    // const userObj = new user();
+    // userObj.username = username;
+    // userObj.email = email;
+    // userObj.mobile = mobile;
 
-    const newUser = await userObj.save();
+    // const newUser = await userObj.save();
 
-    // const batchSize = 1000;
+    const batchSize = 1000;
 
-    // for (let batch = 0; batch < 10; batch++) {
-    //   const users = [];
+    for (let batch = 0; batch < 50; batch++) {
+      const users = [];
 
-    //   for (let i = 1; i <= batchSize; i++) {
-    //     const num = batch * batchSize + i;
+      for (let i = 1; i <= batchSize; i++) {
+        const num = batch * batchSize + i;
 
-    //     users.push({
-    //       username: `user${num}`,
+        users.push({
+          username: `user${num}`,
 
-    //       email: `user${num}@gmail.com`,
+          email: `user${num}@gmail.com`,
 
-    //       mobile: `${Math.floor(6000000000 + Math.random() * 3999999999)}`,
-    //     });
-    //   }
+          mobile: `${Math.floor(6000000000 + Math.random() * 3999999999)}`,
+        });
+      }
 
-    //   await user.insertMany(users);
+      await user.insertMany(users);
 
-    //   console.log(`Batch ${batch + 1} inserted`);
-    // }
+      console.log(`Batch ${batch + 1} inserted`);
+    }
 
-    // console.log("10000 users inserted");
+    console.log("10000 users inserted");
 
     res.status(201).json({
       success: true,
@@ -125,27 +149,37 @@ export const usersData = async (req, res) => {
         ? {
             $or: [
               {
-                username: { $regex: search, $options: "i" },
+                username: { $regex: `^${search}`, $options: "i" },
               },
               {
-                email: { $regex: search, $options: "i" },
+                email: { $regex: `^${search}`, $options: "i" },
               },
               {
-                mobile: { $regex: search, $options: "i" },
+                mobile: { $regex: `^${search}`, $options: "i" },
               },
             ],
           }
         : {};
 
-    const totalRecords = await userModel.countDocuments();
-    const filteredRecords = await userModel.countDocuments(filter);
+    const totalRecordsPromise = userModel.countDocuments();
 
-    const usersData = await userModel
+    const filteredRecordsPromise =
+      search.length >= 3
+        ? await userModel.countDocuments(filter)
+        : Promise.resolve(null);
+
+    const usersDataPromise = userModel
       .find(filter)
       .select("username email mobile")
       .skip(start)
       .limit(length)
       .lean();
+
+    const [totalRecords, filteredRecordsResult, usersData] = await Promise.all([
+      totalRecordsPromise,
+      filteredRecordsPromise,
+      usersDataPromise,
+    ]);
 
     const formattedUser = usersData.map((user) => {
       return {
@@ -157,6 +191,8 @@ export const usersData = async (req, res) => {
       };
     });
 
+    const filteredRecords = filteredRecordsResult ?? totalRecords;
+
     return res.json({
       draw,
       recordsTotal: totalRecords,
@@ -165,5 +201,31 @@ export const usersData = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    return res.json({
+      draw: 0,
+      recordsTotal: 0,
+      recordsFiltered: 0,
+      data: [],
+      error: error.message,
+    });
+  }
+};
+
+export const editUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const userData = await userModel.findById(id);
+
+    const formattedUser = {
+      id: userData._id,
+      username: userData.username,
+      email: userData.email,
+      mobile: userData.mobile,
+    };
+
+    res.json({ success: true, data: formattedUser });
+  } catch (error) {
+    res.json({ success: false, error: error.message });
   }
 };

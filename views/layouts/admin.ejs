@@ -159,15 +159,69 @@
           });
       });
 
+      // Delete User
+      $("#usersTable").on("click", ".delete-btn", function () {
+        const userid = $(this).data("id");
+
+        swal
+          .fire({
+            title: "Are you sure?",
+            text: "This user will be deleted permanently!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel",
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              console.log(userid);
+              $.ajax({
+                url: `/admin/users/${userid}`,
+                type: "DELETE",
+                dataType: "json",
+                success: function (res) {
+                  if (res.success == true) {
+                    toastr.success("User deleted successfully", "Success");
+                  }
+                  $("#usersTable").DataTable().ajax.reload(null, false);
+                },
+              });
+            }
+          });
+      });
+      // Delete User
+
       $("#usersTable").on("click", ".edit-btn", function () {
         const id = $(this).data("id");
-        alert(`Edit id = ${id}`);
+        //alert(`Edit id = ${id}`);
+
+        $.ajax({
+          url: `/admin/edit-users/${id}`,
+          type: "GET",
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: (res) => {
+            console.log("response = ", res);
+            $("#username").val(res.data.username);
+            $("#email").val(res.data.email);
+            $("#mobile").val(res.data.mobile);
+            $("#userid").val(res.data.id);
+          },
+          error: (err) => {
+            toastr.error("Something went wrong", "Error");
+            $("#pageLoader").hide();
+          },
+          complete: () => {},
+        });
+
+        $("#largeModal").modal("show");
       });
 
-      $("#usersTable").on("click", ".delete-btn", function () {
-        const id = $(this).data("id");
-        alert(`Delete id = ${id}`);
-      });
+      // $("#usersTable").on("click", ".delete-btn", function () {
+      //   const id = $(this).data("id");
+      //   alert(`Delete id = ${id}`);
+      // });
 
       toastr.options = {
         closeButton: true,
@@ -196,6 +250,96 @@
         },
         "Please enter a valid 10-digit Indian mobile number",
       );
+
+      // Update user
+      $("#edit_user_form").validate({
+        rules: {
+          username: {
+            required: true,
+            minlength: 3,
+            maxlength: 100,
+          },
+          email: {
+            required: true,
+            strictEmail: true,
+          },
+          mobile: {
+            required: true,
+            indianMobile: true,
+          },
+          avatar: {
+            required: false,
+            extension: "jpg|jpeg|png",
+          },
+        },
+        messages: {
+          username: {
+            required: "Username is required",
+            minlength: "Username atleast 3 characters",
+            maxlength: "Username should not be greater than 100 characters",
+          },
+          email: {
+            required: "Email is required",
+          },
+          mobile: {
+            required: "Mobile is required",
+            indianMobile: "Please enter a valid 10-digit Indian mobile number",
+          },
+          avatar: {
+            required: "Avtar is required",
+            extension: "Only jpg,jpeg,png allowed",
+          },
+        },
+        errorElement: "small",
+
+        errorClass: "text-danger",
+
+        errorPlacement: function (error, element) {
+          if (element.parent(".input-group").length) {
+            error.insertAfter(element.parent());
+          } else {
+            error.insertAfter(element);
+          }
+        },
+        highlight: function (e) {
+          $(e).addClass("is-invalid");
+        },
+        unhighlight: function (e) {
+          $(e).removeClass("is-invalid");
+        },
+        submitHandler: function (form) {
+          console.log(`Form submitted`);
+          const formData = new FormData(form);
+
+          $("#editBtn").attr("disabled", true);
+          $("#pageLoader").css("display", "flex");
+
+          $.ajax({
+            url: "/admin/usersUpdate",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: (res) => {
+              toastr.success("User updated successfully", "Success");
+              console.log("response = ", res);
+              $("#edit_user_form")[0].reset();
+              $("#editBtn").attr("disabled", false);
+              $("#pageLoader").hide();
+              $("#largeModal").modal("hide");
+              $("#usersTable").DataTable().ajax.reload(null, false);
+            },
+            error: (err) => {
+              toastr.error(`Something went wrong ${err}`, "Error");
+              $("#pageLoader").hide();
+            },
+            complete: () => {},
+          });
+        },
+      });
+
+      // Update user
 
       // Form submission add new user
       $("#add_user_form").validate({

@@ -20,3 +20,93 @@
     </table>
   </div>
 </div>
+
+<!-- Bootstrap modals -->
+
+<!-- Large Modal -->
+<div class="modal fade" id="largeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel3">Edit User</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form id="edit_user_form" enctype="multipart/form-data">
+        <div class="modal-body">
+          <input type="hidden" id="userid" name="userid" />
+          <div class="row">
+            <div class="col mb-3">
+              <label for="nameLarge" class="form-label">Name</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-0">
+              <label for="emailLarge" class="form-label">Email</label>
+              <input
+                type="text"
+                id="email"
+                name="email"
+                class="form-control"
+                placeholder="john.doe@gmail.com"
+                aria-label="john.doe"
+                aria-describedby="basic-default-email2"
+              />
+            </div>
+            <div class="col mb-0">
+              <label for="dobLarge" class="form-label">Phone</label>
+              <input
+                type="text"
+                id="mobile"
+                name="mobile"
+                class="form-control phone-mask"
+                placeholder="6587998941"
+                aria-label="6587998941"
+                aria-describedby="basic-default-phone"
+                oninput="
+                  this.value = this.value.replace(/[^0-9]/g, '');
+                  if (this.value.length > 10)
+                    this.value = this.value.slice(0, 10);
+                "
+              />
+            </div>
+
+            <!-- Upload file -->
+            <div class="col mb-0">
+              <label class="col-sm-2 col-form-label" for="basic-default-phone"
+                >Upload Avatar</label
+              >
+              <div class="col-sm-10">
+                <input type="file" id="avatar" name="avatar" />
+              </div>
+            </div>
+            <!-- Upload file -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" id="editBtn" class="btn btn-primary">
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--/ Bootstrap modals -->
