@@ -1,0 +1,102 @@
+Domain ->
+
+Authentication
+Authorization
+
+modules/features listing
+
+third party api integration
+
+1. db designing
+   - collection name
+   - fields (level properties)
+   - indexing
+2. codebase strucuture
+   folders naming
+   files naming
+
+   ***
+   - Admin Panel/Control Panel (API Access)
+   - Web Site (API Access)
+   - Mobile App (API Access)
+
+   ***
+
+--- coding guidelines and naming conventions and principles
+
+- Make reuse functions/libraries/helpers
+  = email
+  = payment gateway
+  = sms
+  = Code with dependency injection
+
+###################################
+Api Design and Development
+
+- Rest api design and development
+
+- EndPoints/ Resource Urls
+  - api base url with versioning ex: https://api.source.in/v1/auth/login
+  - proper json payloads
+  - proper json response with consistency in keys stick to same rule
+
+  - Ex: USER CRUD
+    - GET /users list 200
+      # use pagination, filter, search, export|import, Download, Multiple delete checkboxes
+    - GET /users/:id single user 200(exits)|404(Not exists)
+
+    - POST /users Create 201
+    - Route Layer->validation middlewares
+
+    ## 1. Route Layer Responsibilities
+    - define endpoint
+    - attach middlewares
+    - call controller
+    2. Validation layer middleware
+    3. validation result middleware
+    4. controller layer
+       - recieve validated request
+       - call service
+       - send response
+    5. service layer (duplicate check, hashing, data preparation, business rules, finally remove sensitive data)
+    - server side validation
+    - Duplicate check
+    - prepare data to insert
+    - run query
+    - handle result
+      - success
+      - error
+
+    # check if record already exists then 209 conflict otherwise dump data
+    - Patch /users/:id single user 200(success update)|404 Not found|500 Internal Server Error
+
+    - DELETE /users/:id single user 409 No data
+
+=================================================== 3. github integration - different environments - dev|stag|prod - main branch - feature branches - merge branches - resolve conflicts
+
+- pull request review
+
+Make Logging system
+
+log
+
+request id
+endpoint
+execution time
+errors
+
+Request
+↓
+Route
+↓
+Validation Middleware
+↓
+Controller
+↓
+Service
+↓
+Repository/Model
+↓
+Database
+↓
+Response
